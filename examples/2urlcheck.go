@@ -39,13 +39,22 @@ func main() {
 
 func printList(suff string, list []*jsoncompare.PathDiff) {
 	for i, v := range list {
-		sing := "!="
-		if v.IsEqual {
-			sing = "=="
+
+		viewPath := v.PathRight
+		if v.PathLeft != "" {
+			viewPath = v.PathLeft
 		}
-		fmt.Printf("%d. %s. %s <%s> %s\n", i, suff, v.PathLeft, sing, v.PathRight)
+
+		fmt.Printf("%d. %s. path: %s\n", i, suff, viewPath)
+
 		if !v.IsEqual {
-			fmt.Printf("		%s <!=> %s\n", v.ValueLeft, v.ValueRight)
+			if v.ValueLeft != nil && v.ValueRight != nil {
+				fmt.Printf("        %s <!=> %s\n", v.ValueLeft, v.ValueRight)
+			} else if v.ValueLeft != nil {
+				fmt.Printf("        %s\n", v.ValueLeft)
+			} else if v.ValueRight != nil {
+				fmt.Printf("        %s\n", v.ValueRight)
+			}
 		}
 	}
 }
