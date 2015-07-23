@@ -44,6 +44,9 @@ func printList(suff string, list []*jsoncompare.PathDiff) {
 			sing = "=="
 		}
 		fmt.Printf("%d. %s. %s <%s> %s\n", i, suff, v.PathLeft, sing, v.PathRight)
+		if !v.IsEqual {
+			fmt.Printf("		%s <!=> %s\n", v.ValueLeft, v.ValueRight)
+		}
 	}
 }
 

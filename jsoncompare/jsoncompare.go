@@ -8,9 +8,11 @@ import (
 )
 
 type PathDiff struct {
-	PathLeft  string
-	PathRight string
-	IsEqual   bool
+	PathLeft   string
+	PathRight  string
+	IsEqual    bool
+	ValueLeft  interface{}
+	ValueRight interface{}
 }
 
 type path struct {
@@ -149,7 +151,9 @@ func fundInPath(leftOrRight bool, from path, p []path) *PathDiff {
 
 	if leftOrRight {
 		diff.PathLeft = from.path
+		diff.ValueLeft = from.value
 	} else {
+		diff.ValueRight = from.value
 		diff.PathRight = from.path
 	}
 
@@ -158,8 +162,10 @@ func fundInPath(leftOrRight bool, from path, p []path) *PathDiff {
 
 			if diff.PathLeft == "" {
 				diff.PathLeft = to.path
+				diff.ValueLeft = to.value
 			} else {
 				diff.PathRight = to.path
+				diff.ValueRight = to.value
 			}
 
 			diff.IsEqual = getEqual(from, to)
